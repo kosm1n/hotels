@@ -17,16 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class HotelAvailabilitySearchesController {
 
     final Logger LOG = LoggerFactory.getLogger(HotelAvailabilitySearchesController.class);
 
-
     private HotelAvailabilitySearchesProducer hotelAvailabilitySearchesProducer;
-
     private ItemRepository itemRepository;
 
     @Autowired
@@ -55,11 +52,16 @@ public class HotelAvailabilitySearchesController {
 
     @GetMapping(value = "/count/{searchId}")
     public ResponseEntity<CountResponseDto> get(@PathVariable(name = "searchId") String searchId) {
-        Optional<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocument = itemRepository.findItemBySearchId(searchId);
-        List<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocumentList = itemRepository.findAllByHotelIdAndCheckIn(hotelAvailabilitySearchDocument.get().getHotelId(), hotelAvailabilitySearchDocument.get().getCheckIn());
+        HotelAvailabilitySearchDocument hotelAvailabilitySearchDocument = itemRepository.findItemBySearchId(searchId).orElseThrow();
+        List<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocumentList =
+                itemRepository.findAll(
+                        hotelAvailabilitySearchDocument.getHotelId(),
+                        hotelAvailabilitySearchDocument.getCheckInDate(),
+                        hotelAvailabilitySearchDocument.getCheckOutDate(),
+                        hotelAvailabilitySearchDocument.getAges());
         return ResponseEntity.ok(new CountResponseDto.Builder()
                 .count((long) hotelAvailabilitySearchDocumentList.size())
-                .search(new HotelAvailabilitySearchRequestDto.Builder().hotelId(hotelAvailabilitySearchDocument.get().getHotelId()).build())
+                .search(new HotelAvailabilitySearchRequestDto.Builder().hotelId(hotelAvailabilitySearchDocument.getHotelId()).build())
                 .build());
 
     }

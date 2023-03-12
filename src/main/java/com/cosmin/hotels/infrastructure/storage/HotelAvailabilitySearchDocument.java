@@ -1,7 +1,6 @@
 package com.cosmin.hotels.infrastructure.storage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -16,33 +15,29 @@ import java.time.LocalDate;
 public class HotelAvailabilitySearchDocument {
 
     @Id
-    @JsonProperty("searchId")
     private String searchId;
-    @JsonProperty("hotelId")
+
     private String hotelId;
 
-    @JsonProperty("checkIn")
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate checkIn;
+    private LocalDate checkInDate;
 
-    @JsonProperty("checkOut")
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate checkOut;
+    private LocalDate checkOutDate;
 
-    @JsonProperty("ages")
     private Integer[] ages;
 
-    public HotelAvailabilitySearchDocument(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
+    public HotelAvailabilitySearchDocument(String searchId, String hotelId, LocalDate checkInDate, LocalDate checkOutDate, Integer[] ages) {
         this.searchId = searchId;
         this.hotelId = hotelId;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
         this.ages = ages;
     }
 
@@ -56,12 +51,12 @@ public class HotelAvailabilitySearchDocument {
         return hotelId;
     }
 
-    public LocalDate getCheckIn() {
-        return checkIn;
+    public LocalDate getCheckInDate() {
+        return checkInDate;
     }
 
-    public LocalDate getCheckOut() {
-        return checkOut;
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
     }
 
     public Integer[] getAges() {
@@ -71,8 +66,8 @@ public class HotelAvailabilitySearchDocument {
     private HotelAvailabilitySearchDocument(Builder builder) {
         searchId = builder.searchId;
         hotelId = builder.hotelId;
-        checkIn = builder.checkIn;
-        checkOut = builder.checkOut;
+        checkInDate = builder.checkIn;
+        checkOutDate = builder.checkOut;
         ages = builder.ages;
     }
 
@@ -80,8 +75,8 @@ public class HotelAvailabilitySearchDocument {
         Builder builder = new Builder();
         builder.searchId = copy.getSearchId();
         builder.hotelId = copy.getHotelId();
-        builder.checkIn = copy.getCheckIn();
-        builder.checkOut = copy.getCheckOut();
+        builder.checkIn = copy.getCheckInDate();
+        builder.checkOut = copy.getCheckOutDate();
         builder.ages = copy.getAges();
         return builder;
     }

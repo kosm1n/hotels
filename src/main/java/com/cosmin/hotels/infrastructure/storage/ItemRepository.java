@@ -14,9 +14,8 @@ public interface ItemRepository extends MongoRepository<HotelAvailabilitySearchD
 
     Optional<HotelAvailabilitySearchDocument> findItemBySearchId(String id);
     
-    @Query(value="{hotelId:'?0'}")
-    List<HotelAvailabilitySearchDocument> findAllByHotelIdAndCheckIn(String hotelId, LocalDate checkIn);
-    
-    public long count();
+    @Query("{'hotelId' : ?0, 'checkInDate': ?1, 'checkOutDate': ?2, 'ages': {$all : ?3}}")
+    List<HotelAvailabilitySearchDocument> findAll(
+            String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages);
 
 }
