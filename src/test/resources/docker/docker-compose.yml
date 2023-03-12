@@ -16,3 +16,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: kosm1n-it-zookeeper:2181
     depends_on:
       - kosm1n-it-zookeeper
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cosmin
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+      MONGO_INITDB_DATABASE: searches
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro

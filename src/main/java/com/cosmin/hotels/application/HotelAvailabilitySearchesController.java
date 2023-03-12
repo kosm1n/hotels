@@ -1,8 +1,11 @@
 package com.cosmin.hotels.application;
 
 
+import com.cosmin.hotels.application.dto.CountResponseDto;
 import com.cosmin.hotels.application.dto.HotelAvailabilitySearchRequestDto;
 import com.cosmin.hotels.application.dto.HotelAvailabilitySearchResponseDto;
+import com.cosmin.hotels.infrastructure.storage.HotelAvailabilitySearchDocument;
+import com.cosmin.hotels.infrastructure.storage.ItemRepository;
 import com.cosmin.hotels.infrastructure.topics.HotelAvailabilitySearchesProducer;
 import com.cosmin.hotels.infrastructure.topics.dto.HotelAvailabilitySearchEvent;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,18 +16,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class HotelAvailabilitySearchesController {
 
     final Logger LOG = LoggerFactory.getLogger(HotelAvailabilitySearchesController.class);
 
+
     private HotelAvailabilitySearchesProducer hotelAvailabilitySearchesProducer;
 
+    private ItemRepository itemRepository;
+
     @Autowired
-    public HotelAvailabilitySearchesController(HotelAvailabilitySearchesProducer hotelAvailabilitySearchesProducer) {
+    public HotelAvailabilitySearchesController(HotelAvailabilitySearchesProducer hotelAvailabilitySearchesProducer, ItemRepository itemRepository) {
         this.hotelAvailabilitySearchesProducer = hotelAvailabilitySearchesProducer;
+        this.itemRepository = itemRepository;
     }
 
     @PostMapping(value = "/search")
@@ -46,13 +54,14 @@ public class HotelAvailabilitySearchesController {
     }
 
     @GetMapping(value = "/count/{searchId}")
-    public ResponseEntity<String> get(@PathVariable(name = "searchId") String searchId) {
-        return ResponseEntity.ok("hi buddy: "+searchId);
-    }
+    public ResponseEntity<CountResponseDto> get(@PathVariable(name = "searchId") String searchId) {
+        Optional<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocument = itemRepository.findItemBySearchId(searchId);
+        List<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocumentList = itemRepository.findAllByHotelIdAndCheckIn(hotelAvailabilitySearchDocument.get().getHotelId(), hotelAvailabilitySearchDocument.get().getCheckIn());
+        return ResponseEntity.ok(new CountResponseDto.Builder()
+                .count((long) hotelAvailabilitySearchDocumentList.size())
+                .search(new HotelAvailabilitySearchRequestDto.Builder().hotelId(hotelAvailabilitySearchDocument.get().getHotelId()).build())
+                .build());
 
-    @GetMapping(value = "/test")
-    public ResponseEntity<String> test(@RequestParam(name = "date") LocalDate date) {
-        return ResponseEntity.ok("hi buddy: "+date);
     }
 
 }

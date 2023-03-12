@@ -7,6 +7,10 @@ server:
 spring:
   application:
     name: prices
+  data:
+    mongodb:
+      uri: mongodb://cosmin:1234@localhost:27017
+      database: searches
   kafka:
     consumer:
       bootstrap-servers: localhost:9092

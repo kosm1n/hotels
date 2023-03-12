@@ -27,6 +27,22 @@ public class HotelAvailabilitySearchRequestDto {
     @NotEmpty
     private final Integer[] ages;
 
+    private HotelAvailabilitySearchRequestDto(Builder builder) {
+        hotelId = builder.hotelId;
+        checkIn = builder.checkIn;
+        checkOut = builder.checkOut;
+        ages = builder.ages;
+    }
+
+    public static Builder builder(HotelAvailabilitySearchRequestDto copy) {
+        Builder builder = new Builder();
+        builder.hotelId = copy.getHotelId();
+        builder.checkIn = copy.getCheckIn();
+        builder.checkOut = copy.getCheckOut();
+        builder.ages = copy.getAges();
+        return builder;
+    }
+
     public String getHotelId() {
         return hotelId;
     }
@@ -53,5 +69,44 @@ public class HotelAvailabilitySearchRequestDto {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.ages = ages;
+    }
+
+
+    public static final class Builder {
+        private @NotBlank String hotelId;
+        private LocalDate checkIn;
+        private LocalDate checkOut;
+        private @NotEmpty Integer[] ages;
+
+        public Builder() {
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public Builder hotelId(@NotBlank String val) {
+            hotelId = val;
+            return this;
+        }
+
+        public Builder checkIn(LocalDate val) {
+            checkIn = val;
+            return this;
+        }
+
+        public Builder checkOut(LocalDate val) {
+            checkOut = val;
+            return this;
+        }
+
+        public Builder ages(@NotEmpty Integer[] val) {
+            ages = val;
+            return this;
+        }
+
+        public HotelAvailabilitySearchRequestDto build() {
+            return new HotelAvailabilitySearchRequestDto(this);
+        }
     }
 }
