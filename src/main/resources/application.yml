@@ -5,17 +5,31 @@ server:
 
 #SPRING PROPERTIES
 spring:
-  spring:
-    application:
-      name: prices
+  application:
+    name: prices
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: cosmin
+      group-id: cosmin-new
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: 'com.cosmin.hotels.infrastructure.topics.dto.HotelAvailabilitySearchEvent'
+              type:
+                mapping: 'com.cosmin.hotels.infrastructure.topics.dto.Message:com.cosmin.hotels.infrastructure.topics.dto.HotelAvailabilitySearchEvent'
+              trusted:
+                packages: 'com.cosmin.hotels.infrastructure.topics.dto'
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+com:
+  kafka:
+    topics:
+      hotel-availability-searches-name: hotel-availability-searches

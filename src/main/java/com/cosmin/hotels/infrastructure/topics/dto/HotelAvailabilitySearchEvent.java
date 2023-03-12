@@ -1,23 +1,48 @@
 package com.cosmin.hotels.infrastructure.topics.dto;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 public class HotelAvailabilitySearchEvent {
 
+    @JsonProperty("searchId")
+    private String searchId;
+    @JsonProperty("hotelId")
+    private String hotelId;
 
-    private final String searchId;
-    private final String hotelId;
-    private final Date checkIn;
-    private final Date checkOut;
-    private final Integer[] ages;
+    @JsonProperty("checkIn")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate checkIn;
 
-    public HotelAvailabilitySearchEvent(String searchId, String hotelId, Date checkIn, Date checkOut, Integer[] ages) {
+    @JsonProperty("checkOut")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate checkOut;
+
+    @JsonProperty("ages")
+    private Integer[] ages;
+
+    public HotelAvailabilitySearchEvent(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
         this.searchId = searchId;
         this.hotelId = hotelId;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.ages = ages;
     }
+
+    public HotelAvailabilitySearchEvent() {}
 
     public String getSearchId() {
         return searchId;
@@ -27,11 +52,11 @@ public class HotelAvailabilitySearchEvent {
         return hotelId;
     }
 
-    public Date getCheckIn() {
+    public LocalDate getCheckIn() {
         return checkIn;
     }
 
-    public Date getCheckOut() {
+    public LocalDate getCheckOut() {
         return checkOut;
     }
 
@@ -61,8 +86,8 @@ public class HotelAvailabilitySearchEvent {
     public static final class Builder {
         private String searchId;
         private String hotelId;
-        private Date checkIn;
-        private Date checkOut;
+        private LocalDate checkIn;
+        private LocalDate checkOut;
         private Integer[] ages;
 
         public Builder() {
@@ -82,12 +107,12 @@ public class HotelAvailabilitySearchEvent {
             return this;
         }
 
-        public Builder checkIn(Date val) {
+        public Builder checkIn(LocalDate val) {
             checkIn = val;
             return this;
         }
 
-        public Builder checkOut(Date val) {
+        public Builder checkOut(LocalDate val) {
             checkOut = val;
             return this;
         }
