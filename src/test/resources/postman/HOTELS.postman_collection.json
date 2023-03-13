@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "ff4988e3-146d-4dc6-93a4-288d4c49e204",
+		"name": "HOTELS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9353208"
+	},
+	"item": [
+		{
+			"name": "/search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"hotelId\": \"1234aBc\",\r\n    \"checkIn\": \"29/12/2023\",\r\n    \"checkOut\": \"31/12/2023\",\r\n    \"ages\": [\r\n        30,\r\n        29,\r\n        1,\r\n        3\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/count/{searchId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/count/-978805580",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"count",
+						"-978805580"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
