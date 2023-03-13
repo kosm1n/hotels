@@ -1,4 +1,4 @@
-package com.cosmin.hotels.infrastructure.storage;
+package com.cosmin.hotels.infrastructure.storage.documents;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

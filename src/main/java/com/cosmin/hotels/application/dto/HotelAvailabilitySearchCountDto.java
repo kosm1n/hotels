@@ -8,24 +8,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CountResponseDto {
+public class HotelAvailabilitySearchCountDto {
 
     @JsonProperty("searchId")
     private final String searchId;
 
     @JsonProperty("search")
-    private final HotelAvailabilitySearchRequestDto search;
+    private final HotelAvailabilitySearchDto search;
 
     @JsonProperty("count")
-    private final Long count;
+    private final Integer count;
 
-    private CountResponseDto(Builder builder) {
+    private HotelAvailabilitySearchCountDto(Builder builder) {
         searchId = builder.searchId;
         search = builder.search;
         count = builder.count;
     }
 
-    public static Builder builder(CountResponseDto copy) {
+    public static Builder builder(HotelAvailabilitySearchCountDto copy) {
         Builder builder = new Builder();
         builder.searchId = copy.getSearchId();
         builder.search = copy.getSearch();
@@ -37,16 +37,16 @@ public class CountResponseDto {
         return searchId;
     }
 
-    public HotelAvailabilitySearchRequestDto getSearch() {
+    public HotelAvailabilitySearchDto getSearch() {
         return search;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
     @JsonCreator
-    public CountResponseDto(String searchId, HotelAvailabilitySearchRequestDto search, Long count) {
+    public HotelAvailabilitySearchCountDto(String searchId, HotelAvailabilitySearchDto search, Integer count) {
         this.searchId = searchId;
         this.search = search;
         this.count = count;
@@ -55,8 +55,8 @@ public class CountResponseDto {
 
     public static final class Builder {
         private String searchId;
-        private HotelAvailabilitySearchRequestDto search;
-        private Long count;
+        private HotelAvailabilitySearchDto search;
+        private Integer count;
 
         public Builder() {
         }
@@ -70,18 +70,18 @@ public class CountResponseDto {
             return this;
         }
 
-        public Builder search(HotelAvailabilitySearchRequestDto val) {
+        public Builder search(HotelAvailabilitySearchDto val) {
             search = val;
             return this;
         }
 
-        public Builder count(Long val) {
+        public Builder count(Integer val) {
             count = val;
             return this;
         }
 
-        public CountResponseDto build() {
-            return new CountResponseDto(this);
+        public HotelAvailabilitySearchCountDto build() {
+            return new HotelAvailabilitySearchCountDto(this);
         }
     }
 }

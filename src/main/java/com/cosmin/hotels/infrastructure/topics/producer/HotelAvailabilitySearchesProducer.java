@@ -1,4 +1,4 @@
-package com.cosmin.hotels.infrastructure.topics;
+package com.cosmin.hotels.infrastructure.topics.producer;
 
 import com.cosmin.hotels.infrastructure.topics.dto.HotelAvailabilitySearchEvent;
 import org.slf4j.Logger;
