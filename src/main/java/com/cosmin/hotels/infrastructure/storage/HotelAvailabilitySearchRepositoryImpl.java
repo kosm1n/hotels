@@ -1,5 +1,6 @@
 package com.cosmin.hotels.infrastructure.storage;
 
+import com.cosmin.hotels.domain.handler.HotelsNotFoundException;
 import com.cosmin.hotels.domain.model.HotelAvailabilitySearch;
 import com.cosmin.hotels.domain.repositories.HotelAvailabilitySearchRepository;
 import com.cosmin.hotels.infrastructure.storage.converters.HotelAvailabilitySearchDocumentToHotelAvailabilitySearchConverter;
@@ -33,7 +34,7 @@ public class HotelAvailabilitySearchRepositoryImpl implements HotelAvailabilityS
     public HotelAvailabilitySearch findBySearchId(String searchId) {
         return toHotelAvailabilitySearchConverter.convert(
                 repository.findBySearchId(searchId)
-                        .orElseThrow(() -> new RuntimeException("Document not found with searchId: "+searchId)));
+                        .orElseThrow(() -> new HotelsNotFoundException("Document not found with searchId: "+searchId)));
     }
 
     @Override

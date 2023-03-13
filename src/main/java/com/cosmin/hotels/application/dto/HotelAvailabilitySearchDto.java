@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,10 +18,12 @@ public class HotelAvailabilitySearchDto {
 
     @JsonProperty("checkIn")
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull
     private final LocalDate checkIn;
 
     @JsonProperty("checkOut")
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull
     private final LocalDate checkOut;
 
     @JsonProperty("ages")
