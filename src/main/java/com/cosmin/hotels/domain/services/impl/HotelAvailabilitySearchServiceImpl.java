@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class HotelAvailabilitySearchServiceImpl implements HotelAvailabilitySearchService {
 
@@ -40,13 +38,12 @@ public class HotelAvailabilitySearchServiceImpl implements HotelAvailabilitySear
     public HotelAvailabilitySearch countHotelAvailabilitySearch(String searchId) {
         LOG.info("HotelAvailabilitySearchServiceImpl, Count Hotel-Availability-Search {}", searchId);
         HotelAvailabilitySearch hotelAvailabilitySearch = hotelAvailabilitySearchRepository.findBySearchId(searchId);
-        List<HotelAvailabilitySearch> hotelAvailabilitySearchList =
-                hotelAvailabilitySearchRepository.findAllBy(
+        hotelAvailabilitySearch.setCount(
+                hotelAvailabilitySearchRepository.countAllBy(
                         hotelAvailabilitySearch.getHotelId(),
                         hotelAvailabilitySearch.getCheckIn(),
                         hotelAvailabilitySearch.getCheckOut(),
-                        hotelAvailabilitySearch.getAges());
-        hotelAvailabilitySearch.setCount(hotelAvailabilitySearchList.size());
+                        hotelAvailabilitySearch.getAges()));
         return hotelAvailabilitySearch;
     }
 

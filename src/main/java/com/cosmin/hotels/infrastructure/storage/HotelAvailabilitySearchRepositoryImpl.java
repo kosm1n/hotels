@@ -37,23 +37,20 @@ public class HotelAvailabilitySearchRepositoryImpl implements HotelAvailabilityS
     }
 
     @Override
-    public List<HotelAvailabilitySearch> findAllBy(
-            String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
-        final List<HotelAvailabilitySearch> hotelAvailabilitySearches = new ArrayList<>();
-        final List<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocumentList =
-                repository.findAllBy(hotelId, checkIn, checkOut, ages);
-        if (!CollectionUtils.isEmpty(hotelAvailabilitySearchDocumentList)) {
-            hotelAvailabilitySearchDocumentList.forEach(hotelAvailabilitySearchDocument ->
-                    hotelAvailabilitySearches.add(toHotelAvailabilitySearchConverter.convert(hotelAvailabilitySearchDocument)));
-        }
-        return hotelAvailabilitySearches;
-    }
-
-    @Override
     public HotelAvailabilitySearch save(
             HotelAvailabilitySearch hotelAvailabilitySearch) {
         return toHotelAvailabilitySearchConverter.convert(
                 repository.save(toHotelAvailabilitySearchDocumentConverter.convert(hotelAvailabilitySearch)));
+    }
+
+    @Override
+    public Integer countAllBy(
+            String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
+        final List<HotelAvailabilitySearch> hotelAvailabilitySearches = new ArrayList<>();
+        final List<HotelAvailabilitySearchDocument> hotelAvailabilitySearchDocumentList =
+                repository.findAllBy(hotelId, checkIn, checkOut, ages);
+
+        return CollectionUtils.isEmpty(hotelAvailabilitySearchDocumentList) ? 0: hotelAvailabilitySearchDocumentList.size();
     }
 
 }
