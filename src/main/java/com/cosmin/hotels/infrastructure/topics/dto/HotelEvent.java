@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public class HotelAvailabilitySearchEvent {
+public class HotelEvent {
 
     @JsonProperty("searchId")
     private String searchId;
@@ -34,7 +34,7 @@ public class HotelAvailabilitySearchEvent {
     @JsonProperty("ages")
     private Integer[] ages;
 
-    public HotelAvailabilitySearchEvent(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
+    public HotelEvent(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages) {
         this.searchId = searchId;
         this.hotelId = hotelId;
         this.checkIn = checkIn;
@@ -42,7 +42,7 @@ public class HotelAvailabilitySearchEvent {
         this.ages = ages;
     }
 
-    public HotelAvailabilitySearchEvent() {}
+    public HotelEvent() {}
 
     public String getSearchId() {
         return searchId;
@@ -64,7 +64,7 @@ public class HotelAvailabilitySearchEvent {
         return ages;
     }
 
-    private HotelAvailabilitySearchEvent(Builder builder) {
+    private HotelEvent(Builder builder) {
         searchId = builder.searchId;
         hotelId = builder.hotelId;
         checkIn = builder.checkIn;
@@ -72,7 +72,7 @@ public class HotelAvailabilitySearchEvent {
         ages = builder.ages;
     }
 
-    public static Builder builder(HotelAvailabilitySearchEvent copy) {
+    public static Builder builder(HotelEvent copy) {
         Builder builder = new Builder();
         builder.searchId = copy.getSearchId();
         builder.hotelId = copy.getHotelId();
@@ -122,8 +122,8 @@ public class HotelAvailabilitySearchEvent {
             return this;
         }
 
-        public HotelAvailabilitySearchEvent build() {
-            return new HotelAvailabilitySearchEvent(this);
+        public HotelEvent build() {
+            return new HotelEvent(this);
         }
     }
 }

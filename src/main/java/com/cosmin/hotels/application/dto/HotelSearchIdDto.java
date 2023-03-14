@@ -2,15 +2,15 @@ package com.cosmin.hotels.application.dto;
 
 import java.util.Objects;
 
-public class HotelAvailabilitySearchIdDto {
+public class HotelSearchIdDto {
 
     private final String hotelId;
 
-    private HotelAvailabilitySearchIdDto(Builder builder) {
+    private HotelSearchIdDto(Builder builder) {
         hotelId = builder.hotelId;
     }
 
-    public static Builder builder(HotelAvailabilitySearchIdDto copy) {
+    public static Builder builder(HotelSearchIdDto copy) {
         Builder builder = new Builder();
         builder.hotelId = copy.getHotelId();
         return builder;
@@ -24,7 +24,7 @@ public class HotelAvailabilitySearchIdDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HotelAvailabilitySearchIdDto that = (HotelAvailabilitySearchIdDto) o;
+        HotelSearchIdDto that = (HotelSearchIdDto) o;
         return Objects.equals(hotelId, that.hotelId);
     }
 
@@ -49,8 +49,8 @@ public class HotelAvailabilitySearchIdDto {
             return this;
         }
 
-        public HotelAvailabilitySearchIdDto build() {
-            return new HotelAvailabilitySearchIdDto(this);
+        public HotelSearchIdDto build() {
+            return new HotelSearchIdDto(this);
         }
     }
 }

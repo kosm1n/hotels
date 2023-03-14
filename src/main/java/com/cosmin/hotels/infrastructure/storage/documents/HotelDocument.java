@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Document("searches")
-public class HotelAvailabilitySearchDocument {
+public class HotelDocument {
 
     @Id
     private String searchId;
@@ -33,7 +33,7 @@ public class HotelAvailabilitySearchDocument {
 
     private Integer[] ages;
 
-    public HotelAvailabilitySearchDocument(String searchId, String hotelId, LocalDate checkInDate, LocalDate checkOutDate, Integer[] ages) {
+    public HotelDocument(String searchId, String hotelId, LocalDate checkInDate, LocalDate checkOutDate, Integer[] ages) {
         this.searchId = searchId;
         this.hotelId = hotelId;
         this.checkInDate = checkInDate;
@@ -41,7 +41,7 @@ public class HotelAvailabilitySearchDocument {
         this.ages = ages;
     }
 
-    public HotelAvailabilitySearchDocument() {}
+    public HotelDocument() {}
 
     public String getSearchId() {
         return searchId;
@@ -63,7 +63,7 @@ public class HotelAvailabilitySearchDocument {
         return ages;
     }
 
-    private HotelAvailabilitySearchDocument(Builder builder) {
+    private HotelDocument(Builder builder) {
         searchId = builder.searchId;
         hotelId = builder.hotelId;
         checkInDate = builder.checkIn;
@@ -71,7 +71,7 @@ public class HotelAvailabilitySearchDocument {
         ages = builder.ages;
     }
 
-    public static Builder builder(HotelAvailabilitySearchDocument copy) {
+    public static Builder builder(HotelDocument copy) {
         Builder builder = new Builder();
         builder.searchId = copy.getSearchId();
         builder.hotelId = copy.getHotelId();
@@ -121,8 +121,8 @@ public class HotelAvailabilitySearchDocument {
             return this;
         }
 
-        public HotelAvailabilitySearchDocument build() {
-            return new HotelAvailabilitySearchDocument(this);
+        public HotelDocument build() {
+            return new HotelDocument(this);
         }
     }
 }

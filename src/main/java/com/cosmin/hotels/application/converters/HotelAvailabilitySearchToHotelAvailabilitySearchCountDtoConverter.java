@@ -1,8 +1,8 @@
 package com.cosmin.hotels.application.converters;
 
-import com.cosmin.hotels.application.dto.HotelAvailabilitySearchCountDto;
-import com.cosmin.hotels.application.dto.HotelAvailabilitySearchDto;
-import com.cosmin.hotels.domain.model.HotelAvailabilitySearch;
+import com.cosmin.hotels.application.dto.HotelCountDto;
+import com.cosmin.hotels.application.dto.HotelDto;
+import com.cosmin.hotels.domain.model.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter implements
-        Converter<HotelAvailabilitySearch, HotelAvailabilitySearchCountDto> {
+        Converter<Hotel, HotelCountDto> {
 
     final Logger LOG = LoggerFactory.getLogger(HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter.class);
 
     @Override
     @NonNull
-    public HotelAvailabilitySearchCountDto convert(HotelAvailabilitySearch source) {
+    public HotelCountDto convert(Hotel source) {
         LOG.info("Converting HotelAvailabilitySearch '{}' to HotelAvailabilitySearchCountDto.", source);
-        return new HotelAvailabilitySearchCountDto.Builder()
+        return new HotelCountDto.Builder()
                 .count(source.getCount())
-                .search(new HotelAvailabilitySearchDto.Builder()
+                .search(new HotelDto.Builder()
                         .hotelId(source.getHotelId())
                         .checkIn(source.getCheckIn())
                         .checkOut(source.getCheckOut())

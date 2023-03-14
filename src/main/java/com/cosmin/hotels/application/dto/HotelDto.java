@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HotelAvailabilitySearchDto {
+public class HotelDto {
 
     @JsonProperty("hotelId")
     @NotBlank
@@ -30,14 +30,14 @@ public class HotelAvailabilitySearchDto {
     @NotEmpty
     private final Integer[] ages;
 
-    private HotelAvailabilitySearchDto(Builder builder) {
+    private HotelDto(Builder builder) {
         hotelId = builder.hotelId;
         checkIn = builder.checkIn;
         checkOut = builder.checkOut;
         ages = builder.ages;
     }
 
-    public static Builder builder(HotelAvailabilitySearchDto copy) {
+    public static Builder builder(HotelDto copy) {
         Builder builder = new Builder();
         builder.hotelId = copy.getHotelId();
         builder.checkIn = copy.getCheckIn();
@@ -63,7 +63,7 @@ public class HotelAvailabilitySearchDto {
     }
 
     @JsonCreator
-    public HotelAvailabilitySearchDto(
+    public HotelDto(
             @JsonProperty("hotelId") String hotelId,
             @JsonProperty("checkIn") LocalDate checkIn,
             @JsonProperty("checkOut") LocalDate checkOut,
@@ -108,8 +108,8 @@ public class HotelAvailabilitySearchDto {
             return this;
         }
 
-        public HotelAvailabilitySearchDto build() {
-            return new HotelAvailabilitySearchDto(this);
+        public HotelDto build() {
+            return new HotelDto(this);
         }
     }
 }

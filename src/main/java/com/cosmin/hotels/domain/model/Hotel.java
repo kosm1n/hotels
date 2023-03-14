@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.time.LocalDate;
 
-public class HotelAvailabilitySearch {
+public class Hotel {
 
     private String searchId;
     private String hotelId;
@@ -13,7 +13,7 @@ public class HotelAvailabilitySearch {
     private Integer[] ages;
     private Integer count;
 
-    private HotelAvailabilitySearch(Builder builder) {
+    private Hotel(Builder builder) {
         searchId = builder.searchId;
         hotelId = builder.hotelId;
         checkIn = builder.checkIn;
@@ -22,7 +22,7 @@ public class HotelAvailabilitySearch {
         count = builder.count;
     }
 
-    public static Builder builder(HotelAvailabilitySearch copy) {
+    public static Builder builder(Hotel copy) {
         Builder builder = new Builder();
         builder.searchId = copy.getSearchId();
         builder.hotelId = copy.getHotelId();
@@ -82,7 +82,7 @@ public class HotelAvailabilitySearch {
     }
 
     @JsonCreator
-    public HotelAvailabilitySearch(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages, Integer count) {
+    public Hotel(String searchId, String hotelId, LocalDate checkIn, LocalDate checkOut, Integer[] ages, Integer count) {
         this.searchId = searchId;
         this.hotelId = hotelId;
         this.checkIn = checkIn;
@@ -137,8 +137,8 @@ public class HotelAvailabilitySearch {
             return this;
         }
 
-        public HotelAvailabilitySearch build() {
-            return new HotelAvailabilitySearch(this);
+        public Hotel build() {
+            return new Hotel(this);
         }
     }
 }
