@@ -1,0 +1,33 @@
+info:
+  Description: Hotels
+server:
+  port: 8080
+
+#SPRING PROPERTIES
+spring:
+  application:
+    name: prices
+  kafka:
+    consumer:
+      group-id: cosmin
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: 'com.cosmin.hotels.infrastructure.topics.dto.HotelEvent'
+              type:
+                mapping: 'com.cosmin.hotels.infrastructure.topics.dto.Message:com.cosmin.hotels.infrastructure.topics.dto.HotelEvent'
+              trusted:
+                packages: 'com.cosmin.hotels.infrastructure.topics.dto'
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+com:
+  kafka:
+    topics:
+      hotel-availability-searches-name: hotel-availability-searches

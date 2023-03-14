@@ -1,5 +1,6 @@
-package com.cosmin.hotels;
+package com.cosmin.hotels.domain.handler;
 
+import com.cosmin.hotels.TestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Testcontainers
 @ActiveProfiles("test")
-public class E2ETest {
+public class DefaultErrorAttributesTest {
 
     @Container
     static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
@@ -55,9 +56,5 @@ public class E2ETest {
                 .andExpect(status().isNotFound());
 
     }
-
-
-
-
 
 }

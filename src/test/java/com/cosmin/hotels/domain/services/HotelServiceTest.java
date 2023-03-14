@@ -1,7 +1,6 @@
-package com.cosmin.hotels;
+package com.cosmin.hotels.domain.services;
 
 import com.cosmin.hotels.domain.model.Hotel;
-import com.cosmin.hotels.domain.services.HotelService;
 import com.cosmin.hotels.infrastructure.topics.dto.HotelEvent;
 import com.cosmin.hotels.infrastructure.topics.producer.HotelProducer;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -27,12 +27,21 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @Testcontainers
-public class E2EMockMvcTest {
+public class HotelServiceTest {
 
-    final static Logger LOG = LoggerFactory.getLogger(E2EMockMvcTest.class);
+    final static Logger LOG = LoggerFactory.getLogger(HotelServiceTest.class);
 
     @Container
-    static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
+
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+    }
+
+    @Container
+    static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"))
+            .withEnv("PLAINTEXT","//localhost:9092");
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
@@ -48,6 +57,7 @@ public class E2EMockMvcTest {
 
     @Test
     void testProduceAndConsumeKafkaMessage() {
+
         HotelEvent hotelEvent =
                 new HotelEvent.Builder()
                         .searchId("abcde")
@@ -57,7 +67,6 @@ public class E2EMockMvcTest {
                         .ages(new Integer[]{1,2,3,4})
                         .build();
         ArgumentCaptor<Hotel> captor = ArgumentCaptor.forClass(Hotel.class);
-        //User user = new User("11111", "John", "Wick");
 
         hotelProducer.send("hotel-availability-searches", hotelEvent);
 
@@ -65,36 +74,5 @@ public class E2EMockMvcTest {
         assertNotNull(captor.getValue());
         assertEquals("abcde", captor.getValue().getSearchId());
     }
-
-//    @Autowired
-//    private MockMvc mvc;
-//
-//    @Test
-//    void givenAnHotelAvailabilitySearch_whenTryingToPost_thenReturnTheSearchId() throws Exception {
-//
-//        // Arrange
-//
-//        // Act
-//        mvc.perform(MockMvcRequestBuilders.post("/search").contentType(MediaType.APPLICATION_JSON_VALUE)
-//                        .content(
-//                "{\n" +
-//                        "    \"hotelId\": \"1234aBc\",\n" +
-//                        "    \"checkIn\": \"29/12/2023\",\n" +
-//                        "    \"checkOut\": \"31/12/2023\",\n" +
-//                        "    \"ages\": [\n" +
-//                        "        30,\n" +
-//                        "        29,\n" +
-//                        "        1,\n" +
-//                        "        3\n" +
-//                        "    ]\n" +
-//                        "}"))
-//
-//                // Assert
-//                .andExpect(status().isOk());
-//
-//
-//    }
-
-
 
 }

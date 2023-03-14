@@ -1,41 +1,35 @@
 package com.cosmin.hotels.application.dto;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HotelSearchIdDto {
 
-    private final String hotelId;
+    @JsonProperty("searchId")
+    private final String searchId;
+
+    @JsonCreator
+    public HotelSearchIdDto(@JsonProperty("searchId") String searchId) {
+        this.searchId = searchId;
+    }
 
     private HotelSearchIdDto(Builder builder) {
-        hotelId = builder.hotelId;
+        searchId = builder.searchId;
     }
 
     public static Builder builder(HotelSearchIdDto copy) {
         Builder builder = new Builder();
-        builder.hotelId = copy.getHotelId();
+        builder.searchId = copy.getSearchId();
         return builder;
     }
 
-    public String getHotelId() {
-        return hotelId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HotelSearchIdDto that = (HotelSearchIdDto) o;
-        return Objects.equals(hotelId, that.hotelId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hotelId);
+    public String getSearchId() {
+        return searchId;
     }
 
 
     public static final class Builder {
-        private String hotelId;
+        private String searchId;
 
         public Builder() {
         }
@@ -44,8 +38,8 @@ public class HotelSearchIdDto {
             return new Builder();
         }
 
-        public Builder hotelId(String val) {
-            hotelId = val;
+        public Builder searchId(String val) {
+            searchId = val;
             return this;
         }
 

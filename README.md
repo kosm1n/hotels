@@ -4,11 +4,12 @@
 
 ## Technologies
 
-   * Java 11
-   * Spring Boot 2.7.8
+   * Java 17
+   * Spring Boot 3.0.2
    * Maven version 3.6.3
    * Mongodb
    * Kafka
+   * Test Containers
    * Hexagonal Architecture
    * Docker Desktop
 

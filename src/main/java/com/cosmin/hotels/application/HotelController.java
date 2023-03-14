@@ -43,7 +43,7 @@ public class HotelController {
                 hotelService.sendHotelAvailabilitySearch(
                         toHotelAvailabilitySearchConverter.convert(request));
 
-        return ResponseEntity.ok(new HotelSearchIdDto.Builder().hotelId(hotel.getSearchId()).build());
+        return ResponseEntity.ok(new HotelSearchIdDto.Builder().searchId(hotel.getSearchId()).build());
     }
 
     @GetMapping(value = "/count/{searchId}")
