@@ -58,6 +58,7 @@ public class HotelServiceTest {
     @Test
     void testProduceAndConsumeKafkaMessage() {
 
+        // arrange
         HotelEvent hotelEvent =
                 new HotelEvent.Builder()
                         .searchId("abcde")
@@ -68,8 +69,10 @@ public class HotelServiceTest {
                         .build();
         ArgumentCaptor<Hotel> captor = ArgumentCaptor.forClass(Hotel.class);
 
+        // act
         hotelProducer.send("hotel-availability-searches", hotelEvent);
 
+        // assert
         verify(hotelService, timeout(5000)).saveHotelAvailabilitySearchEvent(captor.capture());
         assertNotNull(captor.getValue());
         assertEquals("abcde", captor.getValue().getSearchId());
