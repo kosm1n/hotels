@@ -1,6 +1,7 @@
-package com.cosmin.hotels.domain.services;
+package com.cosmin.hotels.domain;
 
 import com.cosmin.hotels.domain.model.Hotel;
+import com.cosmin.hotels.domain.services.HotelService;
 import com.cosmin.hotels.infrastructure.topics.dto.HotelEvent;
 import com.cosmin.hotels.infrastructure.topics.producer.HotelProducer;
 import org.junit.jupiter.api.Test;
@@ -40,8 +41,7 @@ public class HotelServiceTest {
     }
 
     @Container
-    static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"))
-            .withEnv("PLAINTEXT","//localhost:9092");
+    static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {

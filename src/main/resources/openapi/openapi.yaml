@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Swagger Avoris - Hotels 3.0
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: hotels
+    description: Publish in kafka, save in mongo and consult Hotel-Availability-Searches
+paths:
+  /count/{searchId}:
+    get:
+      tags:
+        - hotels
+      summary: Find out by SeachId how many times was made that Hotel-Availability-Search
+      description: Returns the object and the counter
+      operationId: count
+      parameters:
+        - name: searchId
+          in: path
+          description: SearchId
+          required: true
+          explode: true
+          schema:
+            type: string
+            example: 'iNp3M'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HotelSearchId'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              examples:
+                BadRequest:
+                  value:
+                    code: 400
+                    name: "Bad Request"
+                    description: ""
+        '404':
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Internarl Server Error
+
+  /search:
+    post:
+      tags:
+        - hotels
+      summary: Persist Hotel-Availability-Search after produce and consume from kafka topic
+      description: Returns the object and the counter
+      operationId: search
+      requestBody:
+        $ref: '#/components/requestBodies/HotelDto'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HotelCount'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              examples:
+                BadRequest:
+                  value:
+                    code: 400
+                    name: "Bad Request"
+                    description: "'hotelId' no puede estar vacío and value was ''"
+        '500':
+          description: Internarl Server Error
+
+components:
+  schemas:
+    Hotel:
+      type: object
+      required:
+        -  hotelId
+        -  checkIn
+        -  checkOut
+        -  example
+      properties:
+        hotelId:
+          type: string
+          example: "1234Abc"
+        checkIn:
+          type: string
+          format: date
+          example: "29/12/2023"
+        checkOut:
+          type: string
+          format: date
+          example: "31/12/2023"
+        ages:
+          type: array
+          items:
+            type: integer
+          example: [1, 3, 29, 30]
+    HotelSearchId:
+      type: object
+      properties:
+        searchId:
+          type: string
+          example: "iNp3M"
+    HotelCount:
+      type: object
+      properties:
+        searchId:
+          type: string
+          example: "iNp3M"
+        search:
+          $ref: '#/components/schemas/Hotel'
+        count:
+          type: integer
+          example: 1
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 404
+        name:
+          type: string
+          example: "Not Found"
+        description:
+          type: string
+          example: "Document not found with searchId: iNp3M4"
+  requestBodies:
+    HotelDto:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Hotel'

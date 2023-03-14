@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MongoDBContainer;
@@ -44,7 +43,6 @@ public class HotelControllerTest {
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
-        LOG.info(kafkaContainer.getBootstrapServers());
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
     }
 
@@ -60,25 +58,24 @@ public class HotelControllerTest {
         // Arrange
 
         // Act
-        ResultActions resultActions =
-                mvc.perform(MockMvcRequestBuilders.post("/search").contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(
-                "{\n" +
-                        "    \"hotelId\": \"1234aBc\",\n" +
-                        "    \"checkIn\": \"29/12/2023\",\n" +
-                        "    \"checkOut\": \"31/12/2023\",\n" +
-                        "    \"ages\": [\n" +
-                        "        30,\n" +
-                        "        29,\n" +
-                        "        1,\n" +
-                        "        3\n" +
-                        "    ]\n" +
-                        "}"))
+        mvc.perform(MockMvcRequestBuilders.post("/search").contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(
+        "{\n" +
+                "    \"hotelId\": \"1234aBc\",\n" +
+                "    \"checkIn\": \"29/12/2023\",\n" +
+                "    \"checkOut\": \"31/12/2023\",\n" +
+                "    \"ages\": [\n" +
+                "        30,\n" +
+                "        29,\n" +
+                "        1,\n" +
+                "        3\n" +
+                "    ]\n" +
+                "}"))
 
-                // Assert
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.searchId").isString());
+        // Assert
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.searchId").isString());
 
 
     }
@@ -94,7 +91,6 @@ public class HotelControllerTest {
                 .checkOut(LocalDate.now())
                 .ages(new Integer[]{1,2,3,4})
                 .build());
-        // Act
 
         // Act
         mvc.perform(MockMvcRequestBuilders.get("/count/abcde").contentType(MediaType.APPLICATION_JSON))
@@ -105,6 +101,29 @@ public class HotelControllerTest {
 
     }
 
+    @Test
+    void givenAnInvalidHotelAvailabilitySearch_whenTryingToPost_thenReturn400BadRequest() throws Exception {
 
+        // Arrange
+
+        // Act
+        mvc.perform(MockMvcRequestBuilders.post("/search").contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(
+                                "{\n" +
+
+                                        "    \"checkOut\": \"31/12/2023\",\n" +
+                                        "    \"ages\": [\n" +
+                                        "        30,\n" +
+                                        "        29,\n" +
+                                        "        1,\n" +
+                                        "        3\n" +
+                                        "    ]\n" +
+                                        "}"))
+
+                // Assert
+                .andExpect(status().isBadRequest());
+
+
+    }
 
 }

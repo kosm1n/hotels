@@ -4,8 +4,8 @@
 
 ## Technologies
 
-   * Java 17
-   * Spring Boot 3.0.2
+   * Java 11
+   * Spring Boot 2.7.9
    * Maven version 3.6.3
    * Mongodb
    * Kafka
