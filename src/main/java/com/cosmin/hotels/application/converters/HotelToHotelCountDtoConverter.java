@@ -10,15 +10,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter implements
+public class HotelToHotelCountDtoConverter implements
         Converter<Hotel, HotelCountDto> {
 
-    final Logger LOG = LoggerFactory.getLogger(HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter.class);
+    final Logger LOG = LoggerFactory.getLogger(HotelToHotelCountDtoConverter.class);
 
     @Override
     @NonNull
     public HotelCountDto convert(Hotel source) {
-        LOG.info("Converting HotelAvailabilitySearch '{}' to HotelAvailabilitySearchCountDto.", source);
+        LOG.info("Converting Hotel '{}' to HotelCountDto.", source);
         return new HotelCountDto.Builder()
                 .count(source.getCount())
                 .search(new HotelDto.Builder()

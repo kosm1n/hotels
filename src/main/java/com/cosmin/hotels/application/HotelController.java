@@ -1,8 +1,8 @@
 package com.cosmin.hotels.application;
 
 
-import com.cosmin.hotels.application.converters.HotelAvailabilitySearchDtoToHotelAvailabilitySearchConverter;
-import com.cosmin.hotels.application.converters.HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter;
+import com.cosmin.hotels.application.converters.HotelDtoToHotelConverter;
+import com.cosmin.hotels.application.converters.HotelToHotelCountDtoConverter;
 import com.cosmin.hotels.application.dto.HotelCountDto;
 import com.cosmin.hotels.application.dto.HotelDto;
 import com.cosmin.hotels.application.dto.HotelSearchIdDto;
@@ -12,9 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 public class HotelController {
@@ -22,21 +21,21 @@ public class HotelController {
     final Logger LOG = LoggerFactory.getLogger(HotelController.class);
 
     private HotelService hotelService;
-    private HotelAvailabilitySearchDtoToHotelAvailabilitySearchConverter toHotelAvailabilitySearchConverter;
-    private HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter toHotelAvailabilitySearchCountDtoConverter;
+    private HotelDtoToHotelConverter toHotelAvailabilitySearchConverter;
+    private HotelToHotelCountDtoConverter toHotelAvailabilitySearchCountDtoConverter;
 
     @Autowired
     public HotelController(
             HotelService hotelService,
-            HotelAvailabilitySearchDtoToHotelAvailabilitySearchConverter toHotelAvailabilitySearchConverter,
-            HotelAvailabilitySearchToHotelAvailabilitySearchCountDtoConverter toHotelAvailabilitySearchCountDtoConverter) {
+            HotelDtoToHotelConverter toHotelAvailabilitySearchConverter,
+            HotelToHotelCountDtoConverter toHotelAvailabilitySearchCountDtoConverter) {
         this.hotelService = hotelService;
         this.toHotelAvailabilitySearchConverter = toHotelAvailabilitySearchConverter;
         this.toHotelAvailabilitySearchCountDtoConverter = toHotelAvailabilitySearchCountDtoConverter;
     }
 
     @PostMapping(value = "/search")
-    public ResponseEntity<HotelSearchIdDto> hotelAvailabilitySearch(@Valid @RequestBody HotelDto request) {
+    public ResponseEntity<HotelSearchIdDto> search(@Validated @RequestBody HotelDto request) {
         LOG.info("HotelAvailabilitySearchesController - POST /search with RequestBody {}", request);
 
         Hotel hotel =

@@ -9,15 +9,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HotelAvailabilitySearchDtoToHotelAvailabilitySearchConverter implements
+public class HotelDtoToHotelConverter implements
         Converter<HotelDto, Hotel> {
 
-    final Logger LOG = LoggerFactory.getLogger(HotelAvailabilitySearchDtoToHotelAvailabilitySearchConverter.class);
+    final Logger LOG = LoggerFactory.getLogger(HotelDtoToHotelConverter.class);
 
     @Override
     @NonNull
     public Hotel convert(HotelDto source) {
-        LOG.info("Converting HotelAvailabilitySearchDto '{}' to HotelAvailabilitySearch.", source);
+        LOG.info("Converting HotelDto '{}' to Hotel.", source);
         return new Hotel.Builder()
                 .hotelId(source.getHotelId())
                 .checkIn(source.getCheckIn())

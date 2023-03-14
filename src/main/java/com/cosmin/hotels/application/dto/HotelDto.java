@@ -3,6 +3,7 @@ package com.cosmin.hotels.application.dto;
 
 import com.fasterxml.jackson.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -10,10 +11,11 @@ import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Valid
 public class HotelDto {
 
     @JsonProperty("hotelId")
-    @NotBlank
+    @NotEmpty
     private final String hotelId;
 
     @JsonProperty("checkIn")
@@ -63,8 +65,9 @@ public class HotelDto {
     }
 
     @JsonCreator
+    @Valid
     public HotelDto(
-            @JsonProperty("hotelId") String hotelId,
+            @NotEmpty @JsonProperty("hotelId") String hotelId,
             @JsonProperty("checkIn") LocalDate checkIn,
             @JsonProperty("checkOut") LocalDate checkOut,
             @JsonProperty("ages") @NotEmpty Integer[] ages) {
