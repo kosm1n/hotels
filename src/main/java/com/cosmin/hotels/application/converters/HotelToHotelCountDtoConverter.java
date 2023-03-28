@@ -17,7 +17,7 @@ public class HotelToHotelCountDtoConverter implements
 
     @Override
     @NonNull
-    public HotelCountDto convert(Hotel source) {
+    public HotelCountDto convert(final Hotel source) {
         LOG.info("Converting Hotel '{}' to HotelCountDto.", source);
         return new HotelCountDto.Builder()
                 .count(source.getCount())

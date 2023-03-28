@@ -35,7 +35,7 @@ public class HotelController {
     }
 
     @PostMapping(value = "/search")
-    public ResponseEntity<HotelSearchIdDto> search(@Validated @RequestBody HotelDto request) {
+    public ResponseEntity<HotelSearchIdDto> search(@Validated @RequestBody final HotelDto request) {
         LOG.info("HotelAvailabilitySearchesController - POST /search with RequestBody {}", request);
 
         Hotel hotel =
@@ -46,7 +46,7 @@ public class HotelController {
     }
 
     @GetMapping(value = "/count/{searchId}")
-    public ResponseEntity<HotelCountDto> count(@PathVariable(name = "searchId") String searchId) {
+    public ResponseEntity<HotelCountDto> count(@PathVariable(name = "searchId") final String searchId) {
         LOG.info("HotelAvailabilitySearchesController - GET /count/{searchId} with {}", searchId);
 
         return ResponseEntity.ok(toHotelAvailabilitySearchCountDtoConverter.convert(

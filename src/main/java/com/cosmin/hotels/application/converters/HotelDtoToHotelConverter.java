@@ -16,7 +16,7 @@ public class HotelDtoToHotelConverter implements
 
     @Override
     @NonNull
-    public Hotel convert(HotelDto source) {
+    public Hotel convert(final HotelDto source) {
         LOG.info("Converting HotelDto '{}' to Hotel.", source);
         return new Hotel.Builder()
                 .hotelId(source.getHotelId())
